@@ -140,7 +140,7 @@ pip install black isort pylint
 |--------|-------------|
 | [copilot.lua](https://github.com/zbirenbaum/copilot.lua) | GitHub Copilot |
 | [avante.nvim](https://github.com/yetone/avante.nvim) | AI coding assistant |
-| [claudecode.nvim](https://github.com/anthropics/claudecode.nvim) | Claude Code integration |
+| [claudecode.nvim](https://github.com/coder/claudecode.nvim) | Claude Code integration |
 
 ### UI Enhancements
 
@@ -175,7 +175,7 @@ pip install black isort pylint
 | [trouble.nvim](https://github.com/folke/trouble.nvim) | Diagnostics list |
 | [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim) | Search and replace |
 | [snacks.nvim](https://github.com/folke/snacks.nvim) | Terminal and utilities |
-| [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Tmux integration |
+| [tmux.nvim](https://github.com/aserowy/tmux.nvim) | Tmux integration (navigation + resize) |
 | [hardtime.nvim](https://github.com/m4xshen/hardtime.nvim) | Break bad habits |
 
 ## Key Mappings
