@@ -1,45 +1,44 @@
 return {
-  "folke/persistence.nvim",
-  event = "BufReadPre",
+  'folke/persistence.nvim',
+  event = 'BufReadPre',
   opts = {
-    dir = vim.fn.expand(vim.fn.stdpath("state") .. "/sessions/"),
-    options = { "buffers", "curdir", "tabpages", "winsize" },
+    dir = vim.fn.expand(vim.fn.stdpath 'state' .. '/sessions/'),
+    options = { 'buffers', 'curdir', 'tabpages', 'winsize' },
   },
   keys = {
     {
-      "<leader>wr",
+      '<leader>wr',
       function()
-        require("persistence").load()
+        require('persistence').load()
       end,
-      desc = "Restore session for cwd",
+      desc = 'Restore session for cwd',
     },
     {
-      "<leader>ws",
+      '<leader>ws',
       function()
-        require("persistence").save()
+        require('persistence').save()
       end,
-      desc = "Save session for cwd",
+      desc = 'Save session for cwd',
     },
     {
-      "<leader>wl",
+      '<leader>wl',
       function()
-        require("persistence").load({ last = true })
+        require('persistence').load { last = true }
       end,
-      desc = "Restore last session",
+      desc = 'Restore last session',
     },
   },
   config = function(_, opts)
-    require("persistence").setup(opts)
+    require('persistence').setup(opts)
     -- Auto-restore on startup (optional)
-    vim.api.nvim_create_autocmd("VimEnter", {
-      group = vim.api.nvim_create_augroup("restore_session", { clear = true }),
+    vim.api.nvim_create_autocmd('VimEnter', {
+      group = vim.api.nvim_create_augroup('restore_session', { clear = true }),
       callback = function()
         if vim.fn.argc() == 0 then
-          require("persistence").load()
+          require('persistence').load()
         end
       end,
       nested = true,
     })
   end,
 }
-

@@ -1,15 +1,14 @@
 return {
-  "numToStr/Comment.nvim",
-  event = { "BufReadPre", "BufNewFile" },
+  'numToStr/Comment.nvim',
+  event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
-    "folke/ts-comments.nvim",
+    'folke/ts-comments.nvim',
   },
   config = function()
     -- setup ts-comments for context-aware commenting
-    require("ts-comments").setup()
+    require('ts-comments').setup()
 
     -- enable comment
-    require("Comment").setup()
+    require('Comment').setup()
   end,
 }
-
