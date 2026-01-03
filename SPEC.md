@@ -125,7 +125,7 @@ This Neovim configuration provides a modern, AI-assisted development environment
     │       └── which-key.lua   # Keybinding help
     └── kickstart/
         └── plugins/
-            └── debug.lua       # nvim-dap (optional, planned)
+            └── debug.lua       # nvim-dap debugging
 ```
 
 ### Rationale: Per-Plugin Organization
@@ -194,7 +194,6 @@ Each plugin has its own file because:
 | Plugin | Purpose | Rationale |
 |--------|---------|-----------|
 | nvim-treesitter | Syntax parsing | Modern syntax highlighting |
-| nvim-ts-autotag | Auto-tag | HTML/JSX tag management |
 | ts-comments.nvim | Smart comments | Context-aware commenting |
 
 #### File Navigation
@@ -362,14 +361,13 @@ opts = {
 
 ### Treesitter
 
-**Installed Parsers (22):**
+**Installed Parsers (10):**
 ```
-json, javascript, typescript, tsx, yaml, html, css, prisma,
-markdown, markdown_inline, svelte, graphql, bash, lua, vim,
-dockerfile, gitignore, query, vimdoc, terraform, c
+json, yaml, bash, lua, vim, markdown, markdown_inline,
+vimdoc, terraform, python
 ```
 
-**Note:** Dynamic installation preferred. Consider reducing to essential subset.
+**Note:** Reduced to essential parsers for Infrastructure/DevOps workflow. Additional parsers install dynamically as needed.
 
 ### Debugging (nvim-dap)
 
@@ -495,7 +493,6 @@ Located in `lua/kickstart/plugins/debug.lua`.
 | `<leader>xd` | Document diagnostics |
 | `<leader>xq` | Quickfix list |
 | `<leader>xl` | Location list |
-| `<leader>xt` | TODOs in Trouble |
 
 #### TODO Navigation
 
@@ -570,10 +567,8 @@ Located in `lua/kickstart/plugins/debug.lua`.
 
 #### C-hjkl Conflicts
 
-- **Oil**: Disables `<C-h/j/k/l>` to prevent conflicts
-- **tmux.nvim**: Uses these for tmux pane navigation
-
-**Status**: Considering tmux.nvim removal.
+- **Status:** Resolved - native split navigation via C-hjkl in init.lua
+- **Note:** oil.nvim disables C-hjkl within oil buffers to avoid conflicts
 
 #### LSP Default Overrides
 
