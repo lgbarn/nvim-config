@@ -394,7 +394,7 @@ When enabled, provides:
 |--------|--------|-----------|
 | `<leader>c` | Claude Code | AI assistant operations |
 | `<leader>e` | Explorer | File tree operations |
-| `<leader>f` | Find/Flash | Search and motion |
+| `<leader>f` | Find | Telescope search operations |
 | `<leader>h` | Hunks | Git hunk operations |
 | `<leader>l` | Lint | Linting operations |
 | `<leader>m` | Make/Format | Code formatting |
@@ -499,8 +499,8 @@ When enabled, provides:
 
 | Key | Action | Mode |
 |-----|--------|------|
-| `<leader>f` | Flash jump | n, x, o |
-| `<leader>F` | Flash treesitter | n, x, o |
+| `s` | Flash jump | n, x, o |
+| `S` | Flash treesitter | n, x, o |
 
 #### Formatting & Linting
 
@@ -555,14 +555,9 @@ When enabled, provides:
 
 ### Known Keybinding Collisions
 
-#### Flash vs Telescope (`<leader>f` prefix)
+#### Flash vs Telescope
 
-- **Flash**: `<leader>f` (single key) triggers jump
-- **Telescope**: `<leader>ff`, `<leader>fr`, etc. (two keys)
-
-**Impact**: Pressing `<leader>f` waits for timeout before triggering Flash.
-
-**Workaround**: The 500ms timeout allows Telescope bindings to complete.
+- **Status:** Resolved - Flash remapped to `s`/`S`, `<leader>f*` is now exclusively Telescope
 
 #### C-hjkl Conflicts
 
@@ -799,9 +794,7 @@ Personalized startup screen with:
 
 #### Flash vs Telescope
 
-- **Issue:** `<leader>f` (Flash) vs `<leader>ff` (Telescope)
-- **Impact:** 500ms delay when using Flash
-- **Status:** Acceptable tradeoff
+- **Status:** Resolved - Flash remapped to `s`/`S`
 
 #### C-hjkl Navigation
 
@@ -834,6 +827,7 @@ The following cleanup items have been completed:
 | Trouble TODO binding | ✅ Removed | Removed `<leader>xt`, use `<leader>ft` instead |
 | Treesitter parsers | ✅ Reduced | 22 → 10 essential parsers |
 | snacks.nvim | ✅ Optimized | Changed to lazy loading, removed priority=1000 |
+| Flash keybinding | ✅ Remapped | Changed `<leader>f` to `s`, `<leader>F` to `S` |
 
 ---
 
