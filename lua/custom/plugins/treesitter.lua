@@ -2,9 +2,6 @@ return {
   'nvim-treesitter/nvim-treesitter',
   event = { 'BufReadPre', 'BufNewFile' },
   build = ':TSUpdate',
-  dependencies = {
-    'windwp/nvim-ts-autotag',
-  },
   config = function()
     -- import nvim-treesitter plugin
     local treesitter = require 'nvim-treesitter.configs'
@@ -18,27 +15,16 @@ return {
       indent = { enable = true },
       -- ensure these language parsers are installed
       ensure_installed = {
+        'bash',
         'json',
-        'javascript',
-        'typescript',
-        'tsx',
-        'yaml',
-        'html',
-        'css',
-        'prisma',
+        'lua',
         'markdown',
         'markdown_inline',
-        'svelte',
-        'graphql',
-        'bash',
-        'lua',
-        'vim',
-        'dockerfile',
-        'gitignore',
         'query',
-        'vimdoc',
         'terraform',
-        'c',
+        'vim',
+        'vimdoc',
+        'yaml',
       },
       incremental_selection = {
         enable = true,
@@ -50,8 +36,5 @@ return {
         },
       },
     }
-
-    -- Setup nvim-ts-autotag separately (no longer part of treesitter config)
-    require('nvim-ts-autotag').setup()
   end,
 }

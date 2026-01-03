@@ -93,7 +93,7 @@ This Neovim configuration provides a modern, AI-assisted development environment
 ├── SPEC.md                     # This specification
 └── lua/
     ├── custom/
-    │   └── plugins/            # 32 individual plugin configs
+    │   └── plugins/            # 29 individual plugin configs
     │       ├── init.lua        # Loads plenary.nvim
     │       ├── ai.lua          # Avante + Copilot
     │       ├── alpha.lua       # Dashboard
@@ -108,19 +108,16 @@ This Neovim configuration provides a modern, AI-assisted development environment
     │       ├── formatting.lua  # conform.nvim
     │       ├── gitsigns.lua    # Git integration
     │       ├── grug-far.lua    # Search & replace
-    │       ├── hardtime.lua    # Habit breaking
     │       ├── indent-blankline.lua # Indent guides
     │       ├── lazygit.lua     # LazyGit integration
     │       ├── linting.lua     # nvim-lint
     │       ├── lualine.lua     # Statusline
     │       ├── noice.lua       # Modern UI
     │       ├── nvim-cmp.lua    # Completion
-    │       ├── nvim-tree.lua   # File explorer
-    │       ├── oil.lua         # Directory editing
+    │       ├── oil.lua         # File explorer (buffer-based)
     │       ├── precommit.lua   # Pre-commit hooks
     │       ├── snacks.lua      # Terminal utilities
     │       ├── telescope.lua   # Fuzzy finder
-    │       ├── tmux.lua        # Tmux integration
     │       ├── todo-comments.lua # TODO highlighting
     │       ├── treesitter.lua  # Syntax parsing
     │       ├── trouble.lua     # Diagnostics list
@@ -163,7 +160,7 @@ Each plugin has its own file because:
 
 ## Plugin Ecosystem
 
-### Complete Plugin List (60 plugins)
+### Complete Plugin List (~55 plugins)
 
 #### Core
 
@@ -207,8 +204,7 @@ Each plugin has its own file because:
 | telescope.nvim | Fuzzy finder | Best fuzzy finder experience |
 | telescope-fzf-native.nvim | FZF backend | Native performance |
 | telescope-frecency.nvim | Frecency | Smart file ordering |
-| nvim-tree.lua | File explorer | Sidebar navigation |
-| oil.nvim | Directory editing | Buffer-based file ops |
+| oil.nvim | File explorer | Buffer-based directory editing |
 
 #### Git Integration
 
@@ -265,8 +261,6 @@ Each plugin has its own file because:
 | grug-far.nvim | Search/replace | Project-wide replace |
 | persistence.nvim | Sessions | Auto-save/restore |
 | snacks.nvim | Terminal | Floating terminal |
-| hardtime.nvim | Habit breaking | Discourage bad habits |
-| tmux.nvim | Tmux integration | Seamless navigation |
 | guess-indent.nvim | Auto-indent | Detect indentation |
 
 ---
@@ -452,21 +446,12 @@ When enabled, provides:
 - `<C-j>`: Next result
 - `<C-q>`: Send to quickfix
 
-#### File Explorer (`<leader>e*`)
-
-| Key | Action |
-|-----|--------|
-| `<leader>ee` | Toggle file explorer |
-| `<leader>ef` | Toggle on current file |
-| `<leader>ec` | Collapse explorer |
-| `<leader>er` | Refresh explorer |
-
-#### Oil
+#### File Explorer (oil.nvim)
 
 | Key | Action |
 |-----|--------|
 | `-` | Open parent directory |
-| `<space>-` | Open parent (floating) |
+| `<leader>-` | Open parent (floating) |
 | `<M-h>` | Open in split |
 
 #### Git Hunks (`<leader>h*`)
@@ -801,9 +786,8 @@ Personalized startup screen with:
 
 #### Navigation Plugins
 
-- **Issue:** nvim-tree and oil.nvim both provide file navigation
-- **Current Status:** oil.nvim is cruft (see Cleanup Candidates)
-- **Recommendation:** Remove oil.nvim
+- **Status:** Resolved - using oil.nvim as sole file explorer
+- **Rationale:** Telescope + oil.nvim is sufficient for Infrastructure/DevOps workflow
 
 #### LSP-Related
 
@@ -821,9 +805,8 @@ Personalized startup screen with:
 
 #### C-hjkl Navigation
 
-- **Issue:** Multiple plugins want these keys
-- **Resolution:** oil.nvim disables them, tmux.nvim uses them
-- **Future:** May remove tmux.nvim
+- **Status:** Resolved - native split navigation via C-hjkl in init.lua
+- **Note:** oil.nvim disables C-hjkl within oil buffers to avoid conflicts
 
 #### LSP Overrides
 
@@ -838,85 +821,28 @@ Personalized startup screen with:
 
 ---
 
-## Cleanup Candidates
+## Cleanup Log
 
-### 1. oil.nvim
+The following cleanup items have been completed:
 
-**Rationale:** Evolutionary cruft from trying different file navigation approaches.
+| Item | Status | Action Taken |
+|------|--------|--------------|
+| hardtime.nvim | ✅ Removed | Deleted plugin file |
+| tmux.nvim | ✅ Removed | Deleted plugin file, added native C-hjkl split nav |
+| nvim-tree.lua | ✅ Removed | Deleted plugin file, using oil.nvim instead |
+| nvim-ts-autotag | ✅ Removed | Removed from treesitter dependencies |
+| Trouble TODO binding | ✅ Removed | Removed `<leader>xt`, use `<leader>ft` instead |
+| Treesitter parsers | ✅ Reduced | 22 → 10 essential parsers |
 
-**Current State:** Installed and configured but rarely used.
+### Remaining Considerations
 
-**Recommendation:** Remove entirely; nvim-tree provides sufficient file navigation.
-
-**Files to modify:**
-- Delete `lua/custom/plugins/oil.lua`
-
-### 2. hardtime.nvim
-
-**Rationale:** Reconsidering value; friction may not be worth the habit-breaking benefits.
-
-**Current State:** Loaded eagerly, always active.
-
-**Recommendation:** Consider removal or making optional.
-
-**Files to modify:**
-- Delete `lua/custom/plugins/hardtime.lua`
-
-### 3. Trouble's TODO View
-
-**Rationale:** Redundant with Telescope's `<leader>ft` TODO search.
-
-**Current State:** `<leader>xt` opens Trouble TODO list.
-
-**Recommendation:** Keep Telescope's `<leader>ft` as canonical; consider removing `<leader>xt` binding.
-
-**Files to modify:**
-- Edit `lua/custom/plugins/trouble.lua` to remove TODO keybinding
-
-### 4. tmux.nvim
-
-**Rationale:** Considering whether tmux integration is needed in editor.
-
-**Current State:** Provides C-hjkl for tmux pane navigation.
-
-**Recommendation:** Evaluate if standalone tmux navigation is sufficient.
-
-**Files to modify:**
-- Delete `lua/custom/plugins/tmux.lua`
-- Restore native split navigation keymaps if desired
-
-### 5. snacks.nvim Optimization
+#### snacks.nvim Optimization
 
 **Rationale:** Only using terminal feature for Claude Code dependency.
 
 **Current State:** Full plugin installed, most features unused.
 
-**Recommendation:** Monitor; may be able to replace with lighter terminal solution.
-
 **Status:** Keep for now (Claude Code dependency)
-
-### 6. Treesitter Parser Reduction
-
-**Rationale:** 22 parsers installed, many unused. Prefer dynamic installation.
-
-**Current Parsers:**
-```
-json, javascript, typescript, tsx, yaml, html, css, prisma,
-markdown, markdown_inline, svelte, graphql, bash, lua, vim,
-dockerfile, gitignore, query, vimdoc, terraform, c
-```
-
-**Essential for Infrastructure/DevOps:**
-- terraform, yaml, json, bash, lua, vim, vimdoc, markdown, markdown_inline, query
-
-**Consider removing:**
-- javascript, typescript, tsx (enable dynamically if needed)
-- html, css, svelte, graphql, prisma (web-specific)
-- dockerfile (enable dynamically)
-- c (rarely used)
-
-**Files to modify:**
-- Edit `lua/custom/plugins/treesitter.lua` `ensure_installed` list
 
 ---
 
@@ -959,7 +885,7 @@ Before committing config changes:
 
 5. **Keybinding Test:**
    - `<leader>ff` - Telescope files
-   - `<leader>ee` - nvim-tree
+   - `-` - oil.nvim (file explorer)
    - `<leader>cc` - Claude Code
    - `grr` - LSP references
 
@@ -1044,4 +970,4 @@ nvim --headless -c "Lazy restore" -c "q"
 ---
 
 *Last updated: Document creation*
-*Configuration version: 60 plugins via lazy.nvim*
+*Configuration version: ~55 plugins via lazy.nvim*
