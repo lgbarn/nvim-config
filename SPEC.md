@@ -833,16 +833,7 @@ The following cleanup items have been completed:
 | nvim-ts-autotag | ✅ Removed | Removed from treesitter dependencies |
 | Trouble TODO binding | ✅ Removed | Removed `<leader>xt`, use `<leader>ft` instead |
 | Treesitter parsers | ✅ Reduced | 22 → 10 essential parsers |
-
-### Remaining Considerations
-
-#### snacks.nvim Optimization
-
-**Rationale:** Only using terminal feature for Claude Code dependency.
-
-**Current State:** Full plugin installed, most features unused.
-
-**Status:** Keep for now (Claude Code dependency)
+| snacks.nvim | ✅ Optimized | Changed to lazy loading, removed priority=1000 |
 
 ---
 

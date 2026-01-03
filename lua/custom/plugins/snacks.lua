@@ -1,8 +1,7 @@
 return {
   {
     'folke/snacks.nvim',
-    priority = 1000,
-    lazy = false,
+    lazy = true, -- Load on-demand when Claude Code needs terminal
     opts = {
       terminal = {
         win = {
