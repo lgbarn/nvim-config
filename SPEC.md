@@ -371,18 +371,27 @@ dockerfile, gitignore, query, vimdoc, terraform, c
 
 **Note:** Dynamic installation preferred. Consider reducing to essential subset.
 
-### Planned: Debugging (nvim-dap)
+### Debugging (nvim-dap)
 
-Located in `lua/kickstart/plugins/debug.lua` (commented out).
+Located in `lua/kickstart/plugins/debug.lua`.
 
-When enabled, provides:
-- F5: Start/Continue
-- F1: Step Into
-- F2: Step Over
-- F3: Step Out
-- `<leader>b`: Toggle Breakpoint
-- `<leader>B`: Conditional Breakpoint
-- F7: Toggle DAP UI
+**Supported Languages:**
+- Go (delve)
+- Python (debugpy)
+- Lua/Neovim (one-small-step-for-vimkind)
+- Bash (bash-debug-adapter)
+
+**Keybindings:**
+
+| Key | Action |
+|-----|--------|
+| F5 | Start/Continue |
+| F1 | Step Into |
+| F2 | Step Over |
+| F3 | Step Out |
+| `<leader>b` | Toggle Breakpoint |
+| `<leader>B` | Conditional Breakpoint |
+| F7 | Toggle DAP UI |
 
 ---
 
@@ -828,6 +837,7 @@ The following cleanup items have been completed:
 | Treesitter parsers | ✅ Reduced | 22 → 10 essential parsers |
 | snacks.nvim | ✅ Optimized | Changed to lazy loading, removed priority=1000 |
 | Flash keybinding | ✅ Remapped | Changed `<leader>f` to `s`, `<leader>F` to `S` |
+| nvim-dap | ✅ Enabled | Added Go, Python, Lua, Bash debugging support |
 
 ---
 

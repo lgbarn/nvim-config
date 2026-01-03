@@ -1,15 +1,10 @@
 -- debug.lua
 --
--- Shows how to use the DAP plugin to debug your code.
---
--- Primarily focused on configuring the debugger for Go, but can
--- be extended to other languages as well. That's why it's called
--- kickstart.nvim and not kitchen-sink.nvim ;)
+-- Debug Adapter Protocol (DAP) configuration for multiple languages.
+-- Supports: Go, Python, Lua, Bash
 
 return {
-  -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
-  -- NOTE: And you can specify dependencies as well
   dependencies = {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
@@ -21,8 +16,10 @@ return {
     'mason-org/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
 
-    -- Add your own debuggers here
-    'leoluz/nvim-dap-go',
+    -- Language-specific debugger plugins
+    'leoluz/nvim-dap-go', -- Go debugging
+    'mfussenegger/nvim-dap-python', -- Python debugging
+    'jbyuki/one-small-step-for-vimkind', -- Lua/Neovim debugging
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -93,8 +90,9 @@ return {
       -- You'll need to check that you have the required things installed
       -- online, please don't ask me how to install them :)
       ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
+        'delve', -- Go
+        'python', -- Python (debugpy)
+        'bash', -- Bash
       },
     }
 
@@ -136,12 +134,54 @@ return {
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-    -- Install golang specific config
+    -- Go debugging
     require('dap-go').setup {
       delve = {
         -- On Windows delve must be run attached or it crashes.
-        -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
         detached = vim.fn.has 'win32' == 0,
+      },
+    }
+
+    -- Python debugging
+    require('dap-python').setup()
+
+    -- Lua/Neovim debugging
+    dap.configurations.lua = {
+      {
+        type = 'nlua',
+        request = 'attach',
+        name = 'Attach to running Neovim instance',
+      },
+    }
+    dap.adapters.nlua = function(callback, config)
+      callback { type = 'server', host = config.host or '127.0.0.1', port = config.port or 8086 }
+    end
+
+    -- Bash debugging
+    dap.adapters.bashdb = {
+      type = 'executable',
+      command = vim.fn.stdpath 'data' .. '/mason/packages/bash-debug-adapter/bash-debug-adapter',
+      name = 'bashdb',
+    }
+    dap.configurations.sh = {
+      {
+        type = 'bashdb',
+        request = 'launch',
+        name = 'Launch file',
+        showDebugOutput = true,
+        pathBashdb = vim.fn.stdpath 'data' .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb',
+        pathBashdbLib = vim.fn.stdpath 'data' .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir',
+        trace = true,
+        file = '${file}',
+        program = '${file}',
+        cwd = '${workspaceFolder}',
+        pathCat = 'cat',
+        pathBash = '/bin/bash',
+        pathMkfifo = 'mkfifo',
+        pathPkill = 'pkill',
+        args = {},
+        env = {},
+        terminalKind = 'integrated',
       },
     }
   end,
